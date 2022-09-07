@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <style>
+
+        ul {
+          list-style-position: outside;
+          text-align: left;
+          width: 700px;
+        }
+        </style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Experiment</title>
+
+<!-- Loading Javascripts tools -->
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/jspsych.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-external-html.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-preload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-html-keyboard-response.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-audio-keyboard-response.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-video-keyboard-response.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-survey-text.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-survey-multi-choice.js') }}"></script>
+<link href="{{ url_for('static', filename='js/jspsych-6.3.0/css/jspsych.css') }}" rel="stylesheet" type="text/css">
+</head>
+
+
+
+<body>
+
+
+<!-- Java Script Code Here-->
+<script>
+
+// ///////////////////////////////////
+// Training section of Experiment
+//  //////////////////////////////////
+
+/* CREATE TIMELINE */
+var timeline = [];
+
+var preload = {
+    type: 'preload',
+    auto_preload: true 
+}
+timeline.push(preload);
+
+/* WELCOME SCREEN */
+var welcome = {
+  type: "html-keyboard-response",
+  stimulus: '<p style="font-size:35px; font-weight:bold; color:grey;">Welcome to our experiment!</p>' +
+   '<p>Press "SPACE" key to continue.</p>',
+  choices:  [' '],
+  };
+timeline.push(welcome);
+
+
+/* Introduction */
+var instructions1_1 = {
+  type: "html-keyboard-response",
+  stimulus: '<p style="font-size:20px; font-weight:bold; "> In this experiment, you will listen to "rhythmic sounds". ' +
+      '</p><p>Press "SPACE" to listen to an example.  </p>' ,
+  choices:  [' '],
+  };
+timeline.push(instructions1_1);
+
+
+var videoPlay1 = {
+    timeline: [{
+    type: 'video-keyboard-response',
+    stimulus: ['{{ url_for("static", filename="files/fm_1.5_gap_0_phase_0_contin_1_anim1_mix.mp4") }}'],
+    choices: [' ', 'r'],
+    prompt: ' <ul> <li style="margin: 0 0 10px 0;;font-weight:900"> The blue line represents the rhythm, and the black dot should help you follow along.</li></ul>'+
+    '<p>Press "R" to replay.</p>'+
+    '<p>Press "SPACE" to continue.</p>',
+    trial_ends_after_video: false,
+    response_allowed_while_playing: true,
+    }],
+    loop_function: function(data){
+      if(data.values()[0].response == 'r'){ 
+          return true;
+        }else{
+          return false;           
+            }
+        }
+};
+timeline.push(videoPlay1); 
+
+
+
+var instructions1_2 = {
+  type: "html-keyboard-response",
+  stimulus: ['  <ul> <li style="margin: 0 0 10px 0;font-weight:900"> It is important that you try to follow the  rhythm in your mind.</li> '+
+  '<li style="margin: 0 0 10px 0;font-weight:900"> That is because there will be a silent gap in each rhythm, and it is your job to imagine the rhythm continuing through the silence. </li></ul> ' +
+  ' <p >  Press "SPACE" to continue.  </p>'],
+  choices:  [' '],
+  };
+timeline.push(instructions1_2);
+
+
+
+var instructions1_2_ = {
+  type: "html-keyboard-response",
+  stimulus: [
+  ' <ul><li style="margin: 0 0 10px 0;;font-weight:900">  The rhythm will keep playing again after the silence is over.</li> '+
+  ' <li style="margin: 0 0 10px 0;;font-weight:900"> Try to imagine the rhythm continuing through the silence. </li></ul> '+
+  ' <p >  Press "SPACE" to listen to an example.  </p> '],
+  choices:  [' '],
+  };
+timeline.push(instructions1_2_);
+
+
+
+var videoPlay2 = {
+    timeline: [{
+  type: 'video-keyboard-response',
+  stimulus: ['{{ url_for("static", filename="files/fm_1.5_gap_1_phase_0_contin_1_anim2_mix.mp4") }}'],
+  choices: [' ', 'r'],
+    prompt: [ ' <ul>'+
+  ' <li style="margin: 0 0 10px 0;;font-weight:900" >  Following the black dot will help you.  </li> </ul>'+
+    'Press "R" to Replay.</p>'+
+    'Press "SPACE" to continue.</p>'],
+    trial_ends_after_video: false,
+    response_allowed_while_playing: true,
+    }],
+    loop_function: function(data){
+      if(data.values()[0].response == 'r'){ 
+          return true;
+        }else{
+          return false;           
+            }
+        }
+};
+timeline.push(videoPlay2); 
+
+
+
+var instructions1_3 = {
+  type: "html-keyboard-response",
+  stimulus: '<ul> <li style="margin: 0 0 10px 0;font-weight:900"> Sometimes the rhythm will not continue through the silence correctly – the rhythm will be interrupted while you cannot hear it.</li> '+
+  '<li style="margin: 0 0 10px 0;font-weight:900">It may feel that when the rhythm plays again after the silence, it starts in the “wrong place“.</li> ' +
+  '<li style="margin: 0 0 10px 0;font-weight:900">The rhythm will keep playing again after the silence is over.</li> </ul>'+
+  '<p >Press "SPACE" to listen to an example.</p> ',      
+  choices:  [' '],
+  };
+  timeline.push(instructions1_3);
+
+
+  var videoPlay3 = {
+    timeline: [{
+  type: 'video-keyboard-response',
+  stimulus: ['{{ url_for("static", filename="files/fm_1.5_gap_1_phase_0_contin_0_anim3_mix.mp4") }}'],
+  choices: [' ', 'r'],
+    prompt: ' <ul> <li style="margin: 0 0 10px 0;;font-weight:900">Here is an example for an interrupted rhythm.</li>' +
+      '<li style="margin: 0 0 10px 0;;font-weight:900">Note that the interruption occurs right after the silence.</li>' +
+      '<li style="margin: 0 0 10px 0;;font-weight:900"> Replay the rhythm until you get an impression of an interrupted rhythm.</li></ul>'+
+    '<p>Press "R" to replay.</p>'+
+    '<p>Press "SPACE" to continue.</p>',
+    trial_ends_after_video: false,
+    response_allowed_while_playing: true,
+    }],
+    loop_function: function(data){
+      if(data.values()[0].response == 'r'){ 
+          return true;
+        }else{
+          return false;           
+            }
+        }
+};
+timeline.push(videoPlay3); 
+
+
+var instructions1_4 = {
+    type: "html-keyboard-response",
+    stimulus: '<ul> <li style="margin: 0 0 10px 0;;font-weight:900"> It is your task to determine whether the rhythm continued through the silence correctly, or whether it was interrupted. </li>'+
+    '<li style="margin: 0 0 10px 0;;font-weight:900"> Follow along with the rhythm, and try it imagine it continuing through the silence, so that you will know whether it was interrupted or not. </li></ul>' +
+    ' <p> Press "SPACE" to continue.  </p>',    
+    choices:  [' '],
+  };
+  timeline.push(instructions1_4);
+
+
+  var instructions1_4_ = {
+    type: "html-keyboard-response",
+    stimulus: '<ul> <li style="margin: 0 0 10px 0;font-weight:900">To make your job easier, you will hear some noise in the background.  </li>'+
+    '<li style="margin: 0 0 10px 0;font-weight:900"> Don’t worry about that – the noise will help you imagine the rhythm better, but it is not related to your task.  </li></ul>'+
+    '<p> Press "SPACE" to listen to an example.  </p>',    
+    choices:  [' '],
+  };
+  timeline.push(instructions1_4_);
+
+
+  var videoPlay4 = {
+    timeline: [{
+  type: 'video-keyboard-response',
+  stimulus: ['{{ url_for("static", filename="files/fm_1.5_gap_1_phase_0_contin_0_anim4_mix.mp4") }}'],
+  choices: [' ', 'r'],
+    prompt: ' <p style="font-size:20px;"></p>'+
+    'Press "R" to replay.</p>'+
+    'Press "SPACE" to continue.</p>',
+    trial_ends_after_video: false,
+    response_allowed_while_playing: true,
+    }],
+    loop_function: function(data){
+      if(data.values()[0].response == 'r'){ 
+          return true;
+        }else{
+          return false;           
+            }
+        }
+  };
+  timeline.push(videoPlay4); 
+
+
+  var instructions1_5 = {
+    type: "html-keyboard-response",
+    stimulus: '<ul> <li style="margin: 0 0 10px 0;font-weight:900">The length of silence part can be longer or shorter.  </li></ul>'+
+    '<p> Press "SPACE" to listen to an example for an Interrupted & Long Silence rhythm.  </p>',    
+    choices:  [' '],
+  };
+  timeline.push(instructions1_5);
+
+
+  var videoPlay5 = {
+    timeline: [{
+  type: 'video-keyboard-response',
+  stimulus: ['{{ url_for("static", filename="files/fm_1.5_gap_3_phase_0_contin_0_anim5_mix.mp4") }}'],
+  choices: [' ', 'r'],
+    prompt: ' <p style="font-size:20px;"></p>'+
+    'Press "R" to replay.</p>'+
+    'Press "SPACE" to continue.</p>',
+    trial_ends_after_video: false,
+    response_allowed_while_playing: true,
+    }],
+    loop_function: function(data){
+      if(data.values()[0].response == 'r'){ 
+          return true;
+        }else{
+          return false;           
+            }
+        }
+  };
+  timeline.push(videoPlay5); 
+
+
+  var instructions1_7 = {
+    type: "html-keyboard-response",
+    stimulus: '<ul> <li style="margin: 0 0 10px 0;font-weight:900">The speed of rhythms can be also faster or slower.  </li></ul>'+
+    '<p> Press "SPACE" to listen to an example for an Interrupted & faster rhythm.  </p>',    
+    choices:  [' '],
+  };
+  timeline.push(instructions1_7);
+
+
+  var videoPlay7 = {
+    timeline: [{
+  type: 'video-keyboard-response',
+  stimulus: ['{{ url_for("static", filename="files/fm_2.5_gap_1_phase_0_contin_0_anim8_mix.mp4") }}'],
+  choices: [' ', 'r'],
+    prompt: ' <p style="font-size:20px;"></p>'+
+    'Press "R" to replay.</p>'+
+    'Press "SPACE" to continue.</p>',
+    trial_ends_after_video: false,
+    response_allowed_while_playing: true,
+    }],
+    loop_function: function(data){
+      if(data.values()[0].response == 'r'){ 
+          return true;
+        }else{
+          return false;           
+            }
+        }
+  };
+  timeline.push(videoPlay7); 
+
+
+  var instructions1_8 = {
+    type: "html-keyboard-response",
+    stimulus: '<ul> <li style="margin: 0 0 10px 0;font-weight:900"> The animation (blue line and black dot) was meant to help you imagine the rhythm. </li>'+
+    '<li style="margin: 0 0 10px 0;font-weight:900"> From now on (also in the main experiment) you will only hear rhythmic sounds. </li></ul>' +
+    '<p> Press "SPACE" to listen to an example.  </p>',    
+    choices:  [' '],
+  };
+  timeline.push(instructions1_8);
+
+  
+  var audioPlay8 = {
+    timeline: [{
+  type: 'audio-keyboard-response',
+  stimulus: ['{{ url_for("static", filename="files/fm_2_gap_1_phase_3_contin_0_b_4.mp3") }}'],
+  choices: [' ', 'r'],
+    prompt: ' <ul> <li style="margin: 0 0 10px 0;font-weight:900"> Example for an interrupted rhythm.</li></ul>'+
+    '<p> Press "R" to replay. </p>'+
+    '<p> Press "SPACE" to continue. </p>',
+    trial_ends_after_video: false,
+    response_allowed_while_playing: true,
+    }],
+    loop_function: function(data){
+      if(data.values()[0].response == 'r'){ 
+          return true;
+        }else{
+          return false;           
+            }
+        }
+  };
+  timeline.push(audioPlay8); 
+
+
+  var instructions1_9 = {
+    type: "html-keyboard-response",
+    stimulus: '<ul>'+
+    "<li style='margin: 0 0 10px 0;font-weight:900'> To follow the rhythm, don't move your body, hand, or ... . </li>" +
+    '<li style="margin: 0 0 10px 0;font-weight:900"> It is important for our study, that you use only your imagination to detect the interruption. </li></ul>' +
+    '<p> Press "SPACE" to continue.  </p>',    
+    choices:  [' '],
+  };
+  timeline.push(instructions1_9);
+
+
+
+var instructions1_10 = {
+    type: "html-keyboard-response",
+    stimulus: '<ul> <li style="margin: 0 0 10px 0;font-weight:900"> Before you begin the experiment, you will complete a few practice trials to get used to the task. </li>'+
+    '<li style="margin: 0 0 10px 0;font-weight:900">  Use your imagination to keep track of rhythm. </li></u>' +
+    '<p> Press "SPACE" to begin the practice trials. </p>',
+    choices:  [' '],
+  };
+  timeline.push(instructions1_10);
+
+
+
+
+// Removed JATOS-related variables
+var pis = '';
+var subject_code = '';
+
+// Get URL parameters without JATOS
+var urlParams = new URLSearchParams(window.location.search);
+subject_code = urlParams.get('subject_code') || '';
+pis = urlParams.get('pis') || '';
+
+// Initialize jsPsych
+jsPsych.init({ 
+    show_progress_bar: false, 
+    use_webaudio: true, 
+    timeline: timeline, 
+    on_finish: function() { 
+        // Save data locally
+        //jsPsych.data.get().localSave('csv', 'data_online_neuroflex_'+subject_code+'.csv'); 
+        alert('Thanks for completing the training section!'); 
+        // Redirect to another page
+        // window.location.href = 'https://study.ae.mpg.de/pis/'+pis+'/?finished';
+        //window.location.href = 'https://mahjoory.com/online-experiment';
+    }, 
+    default_iti: 600 
+}); 
+</script>
+</html>

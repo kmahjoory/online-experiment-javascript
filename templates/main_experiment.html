@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <style>
+
+        ul {
+          list-style-position: outside;
+          text-align: left;
+          width: 700px;
+        }
+        </style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Experiment</title>
+
+<!-- Loading Javascripts tools -->
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/jspsych.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-external-html.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-preload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-html-keyboard-response.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-audio-keyboard-response.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-video-keyboard-response.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-survey-text.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jspsych-6.3.0/plugins/jspsych-survey-multi-choice.js') }}"></script>
+<link href="{{ url_for('static', filename='js/jspsych-6.3.0/css/jspsych.css') }}" rel="stylesheet" type="text/css">
+</head>
+
+
+
+<body>
+
+
+<!-- Java Script Code Here-->
+<script>
+
+
+// ///////////////////////////////////
+// Main Experiment
+//  //////////////////////////////////
+
+/* CREATE TIMELINE */
+var timeline = [];
+
+var preload = {
+    type: 'preload',
+    auto_preload: true 
+}
+timeline.push(preload);
+
+/* WELCOME SCREEN */
+var welcome = {
+type: "html-keyboard-response",
+stimulus: '<p style="font-size:35px; font-weight:bold; color:green;">Welcome to the main experiment!</p>' +
+    "<p>Press 'SPACE' key to continue.</p>",
+choices:  [' '],
+};
+timeline.push(welcome);
+
+
+/* Participant ID */
+var pid = {
+type: 'survey-text',
+questions: [{
+  prompt: 'Please enter your Participant ID below (for test purposes type TEST)', name: 'PID',
+  required: true,
+}, ],
+};
+timeline.push(pid);
+
+
+
+
+
+/* AGE */
+var age = {
+type: 'survey-text',
+questions: [{
+    prompt: 'Please enter your age below.', name: 'Age',
+    required: true,
+}, ],
+};
+timeline.push(age);
+
+
+/* Gender */
+var gender = {
+type: 'survey-multi-choice',
+questions: [{
+    prompt: 'Gender?', name: 'Gender',
+    options: ["Male", "Female", "Other"],
+    required: true
+}, ],
+};
+timeline.push(gender);
+
+
+    /* handedness */
+    var handedness = {
+type: 'survey-multi-choice',
+questions: [{
+    prompt: 'Which hand do you write with?', name: 'Handedness',
+    options: ["Right", "Left"],
+    required: true
+}, ],
+};
+timeline.push(handedness);
+
+
+/* Music Experience*/
+var music_exp = {
+type: 'survey-multi-choice',
+questions: [{
+    prompt: 'How would you rate your musical skills/experiences (Please select a number)?', name: 'Music',
+    options: ["1 (not skilled/experienced)", "2", "3", "4", "5 (very skilled/experienced)"],
+    required: true
+}, ],
+};
+timeline.push(music_exp);
+
+
+
+
+var blocks= [1, 2, 3, 4];
+var shuffledBlocks = jsPsych.randomization.repeat(blocks, 1);
+
+var fmSet = [1, 1.5, 2, 2.5, 3,  3.5, 4]
+var shuffledFmSet = jsPsych.randomization.repeat(fmSet, 1);
+
+
+var factors = {
+isContinuous:  [0, 1],
+ncsilent: [1, 3],
+mod_phase: [0, 3],
+}
+
+var fullDesign = jsPsych.randomization.factorial(factors, 1);
+
+nFactors = 2*2*2; // fm is left out here, to group FMs ...
+
+    
+
+var blockStart = {
+    type: "html-keyboard-response",
+    stimulus: ['<ul> <li style="margin: 0 0 10px 0;font-weight:900"> Now, you will listen to 1 block of rhythmic sounds.</li></ul>'+
+                '<p>Press "SPACE" key to continue. </p>'],
+    choices:  [' '],
+    post_trial_gap: 0,
+    };
+    timeline.push(blockStart);
+
+
+
+
+for (jb=0; jb<4; jb++){
+//for (jb=0; jb<1; jb++){
+
+jbDisp = jb + 1
+
+
+
+var blockStart = {
+type: "html-keyboard-response",
+stimulus: ['<ul>' +
+            '<li style="margin: 0 0 10px 0;font-weight:900"> If you need, please take a short break before continuing. </li></ul>' +
+            '<p>Press "SPACE" key to start block '+ jbDisp + '/5 </p>'],
+choices:  [' '],
+post_trial_gap: 0,
+};
+timeline.push(blockStart);
+
+for (jfm=0; jfm<7; jfm++){
+jfmodulate = shuffledFmSet[jfm]
+
+
+for (jf=0; jf<nFactors; jf++){
+//for (jf=0; jf<1; jf++){
+
+
+    jshb = shuffledBlocks[jb] //jsPsych.randomization.repeat(blocks, 1)[0]
+
+    /* Trial Pause */
+    var trialPause = {
+        type: 'html-keyboard-response',
+        stimulus: '',
+        choices: jsPsych.NO_KEYS,
+        trial_duration: jsPsych.randomization.repeat([100, 150, 200], 1)[0],
+        };
+        timeline.push(trialPause);
+
+
+        var baseUrl = '{{ url_for("static", filename="files/") }}';  // Static part from Flask
+        var fileName = "fm_" + jfmodulate + "_gap_" + fullDesign[jf].ncsilent + "_phase_" + fullDesign[jf].mod_phase + "_contin_" +  fullDesign[jf].isContinuous + "_b_" + jshb + ".mp3"
+        var pathSound = [baseUrl + fileName];
+        var soundPlay = {
+        type: 'audio-keyboard-response',
+        stimulus: pathSound.join(''),
+        prompt: '<div style="font-size:60px;">+</div>',
+        choices: jsPsych.NO_KEYS,
+        trial_ends_after_audio: true,
+        };
+        timeline.push(soundPlay);
+
+    /* Audio Response */
+    var audioResponse = {
+    type: "html-keyboard-response",
+    stimulus: '<p>Was the played sound continuing?</p>' +  '<p> NO? press "LEFT Arrow"   &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp   YES? press "RIGHT Arrow"</p>' ,
+    choices:  ['ArrowLeft', 'ArrowRight'],
+    post_trial_gap: 1400,
+    data: {
+        correct_response: fullDesign[jf].isContinuous,
+        ncycles_gap: fullDesign[jf].ncsilent,
+        fm: jfmodulate,
+        block_index: jshb,
+        block_dis: jbDisp,
+        mod_phase: fullDesign[jf].mod_phase,
+        },
+    };
+    timeline.push(audioResponse);
+
+        }
+        }
+      }
+
+    // Removed JATOS-related variables
+    var pis = '';
+    var subject_code = '';
+
+
+// Get URL parameters without JATOS
+var urlParams = new URLSearchParams(window.location.search);
+subject_code = urlParams.get('subject_code') || '';
+pis = urlParams.get('pis') || '';
+
+// Initialize jsPsych
+jsPsych.init({ 
+    show_progress_bar: false, 
+    use_webaudio: true, 
+    timeline: timeline, 
+    on_finish: function() { 
+        // Save data locally
+        jsPsych.data.get().localSave('csv', 'data_online_neuroflex_'+subject_code+'.csv'); 
+        alert('Your data have been successfully saved!'); 
+        // Redirect to another page
+        // window.location.href = 'https://study.ae.mpg.de/pis/'+pis+'/?finished';
+        //window.location.href = 'https://mahjoory.com/online-experiment';
+    }, 
+    default_iti: 600 
+}); 
+</script>
+</html>
