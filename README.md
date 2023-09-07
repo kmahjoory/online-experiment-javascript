@@ -1,8 +1,8 @@
 
 
-## Online Experiment Investigating Entrainment to Frequency-Modulated Sounds 🧠🎧
+## JavaScript Implementation of an Online Experiment Investigating Entrainment to Frequency-Modulated Sounds 🎧
 
-Welcome to our repository for the online experiment exploring entrainment to frequency-modulated sounds. This experiment is developed using **JavaScript** and **Python (Flask)**, and runs on an **NGINX** server. You can access the live experiment via the following link: [Online Experiment Link](https://www.mahjoory.com/online-experiment/)
+This experiment is developed using **JavaScript** and **Python (Flask)**, and runs on an **NGINX** server. You can access the live experiment via the following link: [Online Experiment Link](https://www.mahjoory.com/online-experiment/)
 
 
 > **Note:** The experiment is optimized for desktop PCs and requires a keyboard. It may not function as expected on mobile devices or tablets.
@@ -15,7 +15,7 @@ We provide the software and guidelines to install it on a local server or deploy
 - [Installation](#installation)
 - [Running on a Local Server](#running-on-a-local-server)
 - [Setting Up and Running on an Online Server](#setting-up-and-running-on-an-online-server)
-- [Troubleshooting](#troubleshooting)
+
 
 
 
@@ -245,37 +245,6 @@ The online experiment should now be accessible.
 
 
 
-## Troubleshooting
 
-
-- **Port Conflicts:**
-
-  Ensure no other services are running on the ports you intend to use (e.g., port 80 or 5000).
-
-- **Dependency Errors:**
-
-  We have tested this only on Python 3.12.Make sure Python version and all dependencies in `requirements.txt` are correctly installed. 
-
-- **NGINX Configuration Issues:**
-
-  Check NGINX syntax:
-
-  ```bash
-  sudo nginx -t
-  ```
-
-  Restart NGINX after making changes:
-
-  ```bash
-  sudo systemctl restart nginx
-  ```
-
-
-
-### Contact
-
-For questions please contact:
-
-**Email:** [kmahjoory@gmail.com](mailto:kmahjoory@gmail.com)
 
 
