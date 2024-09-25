@@ -2,7 +2,7 @@
 
 ## Online Experiment Investigating Entrainment to Frequency-Modulated Sounds 🧠🎧
 
-Welcome to our repository for the online experiment exploring entrainment to frequency-modulated sounds. This experiment is developed using **JavaScript** and **Python (Flask)**, and runs on an **NGINX** server. You can access the live experiment via the following link: [**Online Experiment Link**](www.mahjoory.com/online-experiment)
+Welcome to our repository for the online experiment exploring entrainment to frequency-modulated sounds. This experiment is developed using **JavaScript** and **Python (Flask)**, and runs on an **NGINX** server. You can access the live experiment via the following link: [Online Experiment Link](https://www.mahjoory.com/online-experiment/)
 
 
 > **Note:** The experiment is optimized for desktop PCs and requires a keyboard. It may not function as expected on mobile devices or tablets.
